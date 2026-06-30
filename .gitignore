@@ -1,0 +1,19 @@
+# Maven
+target/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# Logs
+*.log
+
+# Local configuration / secrets
+.env
+src/main/resources/application.properties
+src/main/resources/application.yml
+
+# OS files
+.DS_Store
+Thumbs.db
