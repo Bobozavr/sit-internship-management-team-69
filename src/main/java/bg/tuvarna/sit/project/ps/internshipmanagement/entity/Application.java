@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
                         columnNames = {"student_profile_id", "internship_offer_id"}
                 )
         }
-)
+)           //to not let students submit 2 times
 @Getter
 @Setter
 @NoArgsConstructor
