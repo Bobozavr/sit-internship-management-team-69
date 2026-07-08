@@ -1,74 +1,89 @@
 # Student Internship Management System
 
-Spring Boot web application for managing student internships, companies, internship offers and applications.
-
 ## Project Overview
 
-The system supports the complete process of publishing internship positions and applying for them.
+**Student Internship Management System** is a Spring Boot web application designed to manage the process of internship offers, company registration requests, student applications, and administrative review.
 
-Students can browse internship offers, submit applications and track their application status.
+The system is built for a university-style environment where students, companies, and administrators have different responsibilities and access rights.
 
-Companies or mentors can manage their own internship offers and review student applications.
+The main idea of the project is to provide a structured platform where:
 
-Administrators can manage users, companies, offers, applications and platform statistics.
+- students can access internship offers using university credentials;
+- companies can request access to the platform;
+- administrators can verify company registration requests;
+- approved companies can publish internship offers;
+- students can apply for internships;
+- companies can review and manage received applications.
 
-## Team Members and Responsibilities
+---
 
-| Team Member | Responsibility |
-|------------|----------------|
-| Student 1 | Backend entities, repositories and database model |
-| Student 2 | Services, validation and business logic |
-| Student 3 | Security, documentation and final demonstration |
+## Main User Roles
 
-## Technology Stack
+The system supports three main roles:
 
-- Java 17
-- Spring Boot 3
-- Spring Web / REST API
-- Spring Data JPA
-- PostgreSQL
-- Jakarta Bean Validation
-- Spring Security with roles
-- Maven
-- Swagger / OpenAPI
-- Git and GitHub
+### Admin
 
-## User Roles
+The administrator is already created in the system and does not register publicly.
 
-The system has three user roles:
+Admin responsibilities:
 
-- ADMIN
-- STUDENT
-- COMPANY
+- log in with a pre-created local account;
+- review company registration requests;
+- approve or reject companies;
+- manage users;
+- monitor internship offers;
+- view system statistics.
 
-## Main Workflow
+---
 
-1. An administrator registers or approves a company profile.
-2. A company publishes an internship offer.
-3. A student searches available offers and submits an application.
-4. The company reviews the application and changes its status.
-5. The student sees the current application status.
-6. The administrator reviews platform statistics and manages invalid content.
+### Student
 
-## Main Features
+Students do not register manually.
 
-- User registration and login
-- Student profile management
-- Company profile management
-- Internship offer creation and management
-- Internship offer search and filtering
-- Student application submission
-- Application status tracking
-- Company review of applications
-- Admin management and basic statistics
+A student must log in using university credentials, for example through a university Microsoft Teams account.
 
-## How to Run the Application
+For the current MVP version, the university / Teams login can be emulated.
 
-Instructions will be added during development.
+Student responsibilities:
 
-## Database Configuration
+- log in with university credentials;
+- manage student profile;
+- browse active internship offers;
+- apply for internship offers;
+- view application status.
 
-See:
+---
+
+### Company
+
+Companies cannot immediately access the system.
+
+A company must first submit a registration request with detailed information.  
+The administrator manually reviews the request and either approves or rejects it.
+
+Company responsibilities after approval:
+
+- log in to the system;
+- manage company profile;
+- create internship offers;
+- edit or close internship offers;
+- view received student applications;
+- approve or reject student applications.
+
+---
+
+## Updated Authentication and Registration Logic
+
+The project does not use free public registration for all users.
+
+Instead, the system follows this logic:
 
 ```text
-src/main/resources/application-example.properties
+Admin:
+Pre-created local account
+
+Student:
+University / Teams login
+
+Company:
+Registration request → Admin review → Approved / Rejected
