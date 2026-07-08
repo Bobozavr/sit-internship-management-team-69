@@ -27,7 +27,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    //no need column we just saved fact he is in system
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -37,8 +37,26 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @Enumerated(EnumType.STRING)        //from where user came
+    @Column(nullable = false)
+    private AuthProvider authProvider;
+
+    @Column(unique = true)      //id out of system
+    private String externalId;
+
+    @Column(nullable = false)       //for admin understanding
+    private Boolean enabled;
+
     @PrePersist
-    public void setCreatedAtBeforeInsert() {
+    public void setDefaultValuesBeforeInsert() {
         this.createdAt = LocalDateTime.now();
+
+        if (this.enabled == null) {
+            this.enabled = true;
+        }
+
+        if (this.authProvider == null) {
+            this.authProvider = AuthProvider.LOCAL;
+        }
     }
 }
