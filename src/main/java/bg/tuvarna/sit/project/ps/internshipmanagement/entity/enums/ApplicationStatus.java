@@ -1,4 +1,4 @@
-package bg.tuvarna.sit.project.ps.internshipmanagement.entity;
+package bg.tuvarna.sit.project.ps.internshipmanagement.entity.enums;
 
 public enum ApplicationStatus {
     PENDING,
