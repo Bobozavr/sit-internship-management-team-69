@@ -1,5 +1,6 @@
 package bg.tuvarna.sit.project.ps.internshipmanagement.entity;
 
+import bg.tuvarna.sit.project.ps.internshipmanagement.entity.enums.CompanyRegistrationStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

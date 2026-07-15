@@ -8,9 +8,7 @@ import org.springframework.stereotype.Component;
 @Component      //let use this class to other classes
 public class CompanyRegistrationMapper {
 
-    public CompanyRegistrationRequest toEntity(
-            CompanyRegistrationCreateRequest request,
-            String passwordHash
+    public CompanyRegistrationRequest toEntity( CompanyRegistrationCreateRequest request, String passwordHash    //we use password from entity
     ) {
         return CompanyRegistrationRequest.builder()
                 .companyName(request.getCompanyName())
@@ -25,9 +23,7 @@ public class CompanyRegistrationMapper {
                 .build();
     }
 
-    public CompanyRegistrationResponse toResponse(
-            CompanyRegistrationRequest request,
-            String message
+    public CompanyRegistrationResponse toResponse( CompanyRegistrationRequest request, String message
     ) {
         Long createdCompanyId = null;
 

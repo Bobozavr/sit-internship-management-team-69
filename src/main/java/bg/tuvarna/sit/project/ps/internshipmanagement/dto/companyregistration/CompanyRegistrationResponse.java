@@ -1,6 +1,6 @@
 package bg.tuvarna.sit.project.ps.internshipmanagement.dto.companyregistration;
 
-import bg.tuvarna.sit.project.ps.internshipmanagement.entity.CompanyRegistrationStatus;
+import bg.tuvarna.sit.project.ps.internshipmanagement.entity.enums.CompanyRegistrationStatus;
 import lombok.*;
 
 import java.time.LocalDateTime;

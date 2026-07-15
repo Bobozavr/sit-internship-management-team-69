@@ -1,6 +1,6 @@
 package bg.tuvarna.sit.project.ps.internshipmanagement.dto;
 
-import bg.tuvarna.sit.project.ps.internshipmanagement.entity.Role;
+import bg.tuvarna.sit.project.ps.internshipmanagement.entity.enums.Role;
 import lombok.Builder;
 import lombok.Data;
 

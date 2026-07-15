@@ -1,7 +1,7 @@
 package bg.tuvarna.sit.project.ps.internshipmanagement.repository;
 
 import bg.tuvarna.sit.project.ps.internshipmanagement.entity.Application;
-import bg.tuvarna.sit.project.ps.internshipmanagement.entity.ApplicationStatus;
+import bg.tuvarna.sit.project.ps.internshipmanagement.entity.enums.ApplicationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
