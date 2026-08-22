@@ -87,3 +87,37 @@ University / Teams login
 
 Company:
 Registration request → Admin review → Approved / Rejected
+## Backend MVP API
+
+Authentication:
+- `POST /api/auth/login` — admin/approved company local login
+- `POST /api/auth/university-login` — university login simulation for students
+- `GET /api/auth/me` — current authenticated user
+
+Company registration:
+- `POST /api/company-registration-requests`
+- `GET /api/company-registration-requests/{id}/status`
+- Admin review endpoints under `/api/admin/company-registration-requests`
+
+Offers:
+- `GET /api/offers`
+- `GET /api/offers/{id}`
+- Company CRUD/close endpoints under `/api/company/offers`
+
+Applications:
+- Student endpoints under `/api/student/applications`
+- Company review endpoints under `/api/company/applications`
+
+Profiles:
+- `/api/student/profile`
+- `/api/company/profile`
+
+Admin:
+- `/api/admin/users`
+- `/api/admin/companies`
+- `/api/admin/students`
+- `/api/admin/offers`
+- `/api/admin/applications`
+- `/api/admin/stats`
+
+Swagger UI is available at `/swagger-ui/index.html` when the application is running.
