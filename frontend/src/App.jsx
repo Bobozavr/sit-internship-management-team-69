@@ -1,3 +1,4 @@
+import "./access.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
   //3 tools from lib (for open pages, conteiner, rule how to open pages)
 import Navbar from "./components/Navbar";

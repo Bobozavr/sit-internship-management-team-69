@@ -1,0 +1,18 @@
+
+.access-home { max-width: 1380px; }
+.access-home .page-header { padding: 16px 0 22px; }
+.access-home h1 { font-size: clamp(38px, 4.4vw, 64px); }
+.access-roles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.access-role { display: flex; flex-direction: column; align-items: flex-start; gap: 17px; padding: 30px 25px; border: 1px solid #d4e2db; border-radius: 18px; background: #fff; transition: transform .18s, box-shadow .18s; }
+.access-role:first-child { background: #e0f0e7; }
+.access-role:hover { transform: translateY(-4px); box-shadow: 0 14px 32px #173c3012; }
+.access-role-number { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; background: #143f38; color: #ddf1e5; margin-bottom: 18px; font-weight: 600; }
+.access-role .eyebrow { font-size: 9px; letter-spacing: 1.3px; }
+.access-role h2 { font-size: 25px; }
+.access-role p { font-size: 14px; }
+.access-role .text-link { margin-top: auto; padding-top: 22px; }
+.access-footer { display: flex; align-items: center; justify-content: space-between; gap: 26px; margin-top: 36px; padding: 30px 0; border-top: 1px solid #d4e2db; }
+.access-footer h2 { font-size: 19px; margin-bottom: 7px; }
+.access-footer p { font-size: 13px; }
+@media (max-width: 1050px) { .access-roles { grid-template-columns: 1fr; } .access-role-number { margin-bottom: 0; } }
+@media (max-width: 800px) { .access-footer { align-items: flex-start; flex-direction: column; } }
