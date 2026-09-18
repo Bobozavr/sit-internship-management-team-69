@@ -1,12 +1,59 @@
 package bg.tuvarna.sit.project.ps.internshipmanagement.service;
 
-import bg.tuvarna.sit.project.ps.internshipmanagement.dto.*;import bg.tuvarna.sit.project.ps.internshipmanagement.dto.auth.*;import bg.tuvarna.sit.project.ps.internshipmanagement.entity.*;import bg.tuvarna.sit.project.ps.internshipmanagement.entity.enums.*;import bg.tuvarna.sit.project.ps.internshipmanagement.exception.*;import bg.tuvarna.sit.project.ps.internshipmanagement.mapper.UserMapper;import bg.tuvarna.sit.project.ps.internshipmanagement.repository.*;import bg.tuvarna.sit.project.ps.internshipmanagement.security.JwtService;import org.springframework.security.crypto.password.PasswordEncoder;import org.springframework.stereotype.Service;import org.springframework.transaction.annotation.Transactional;
+import bg.tuvarna.sit.project.ps.internshipmanagement.dto.*;
+import bg.tuvarna.sit.project.ps.internshipmanagement.dto.auth.UniversityLoginRequest;
+import bg.tuvarna.sit.project.ps.internshipmanagement.entity.User;
+import bg.tuvarna.sit.project.ps.internshipmanagement.entity.enums.Role;
+import bg.tuvarna.sit.project.ps.internshipmanagement.exception.*;
+import bg.tuvarna.sit.project.ps.internshipmanagement.mapper.UserMapper;
+import bg.tuvarna.sit.project.ps.internshipmanagement.repository.UserRepository;
+import bg.tuvarna.sit.project.ps.internshipmanagement.security.JwtService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@Service public class AuthService {
- private final UserRepository users;private final StudentProfileRepository profiles;private final PasswordEncoder encoder;private final JwtService jwt;private final UserMapper mapper;
- public AuthService(UserRepository u,StudentProfileRepository p,PasswordEncoder e,JwtService j,UserMapper m){users=u;profiles=p;encoder=e;jwt=j;mapper=m;}
- @Transactional public AuthResponse login(AuthRequest r){User u=users.findByEmail(r.getEmail()).orElseThrow(()->new BadRequestException("Invalid email or password"));if(!Boolean.TRUE.equals(u.getEnabled())||u.getAuthProvider()==AuthProvider.UNIVERSITY)throw new BadRequestException("Invalid email or password");if(!encoder.matches(r.getPassword(),u.getPassword()))throw new BadRequestException("Invalid email or password");return token(u);}
- @Transactional public AuthResponse universityLogin(UniversityLoginRequest r){User u=users.findByEmail(r.getEmail()).orElseGet(()->users.save(User.builder().firstName(r.getFirstName()).lastName(r.getLastName()).email(r.getEmail()).password(null).role(Role.STUDENT).authProvider(AuthProvider.UNIVERSITY).externalId(r.getFacultyNumber()).enabled(true).build()));if(u.getRole()!=Role.STUDENT)throw new BadRequestException("Email belongs to another role");u.setFirstName(r.getFirstName());u.setLastName(r.getLastName());u.setExternalId(r.getFacultyNumber());u.setAuthProvider(AuthProvider.UNIVERSITY);u.setEnabled(true);StudentProfile p=profiles.findByUserId(u.getId()).orElseGet(()->StudentProfile.builder().user(u).build());p.setFacultyNumber(r.getFacultyNumber());p.setSpecialty(r.getSpecialty());p.setCourse(r.getCourse());p.setSkills(r.getSkills());profiles.save(p);return token(u);}
- public UserDto me(Long id){return mapper.toDto(users.findById(id).orElseThrow(()->new ResourceNotFoundException("User not found")));}
- private AuthResponse token(User u){return AuthResponse.builder().token(jwt.generateToken(u.getId(),u.getEmail(),u.getRole().name())).email(u.getEmail()).role(u.getRole().name()).build();}
+@Service
+public class AuthService {
+    private final UserRepository users;
+    private final PasswordEncoder encoder;
+    private final JwtService jwt;
+    private final UserMapper mapper;
+
+    public AuthService(UserRepository users, PasswordEncoder encoder, JwtService jwt, UserMapper mapper) {
+        this.users = users; this.encoder = encoder; this.jwt = jwt; this.mapper = mapper;
+    }
+
+    @Transactional(readOnly = true)
+    public AuthResponse login(AuthRequest request) {
+        User user = authenticate(request.getEmail(), request.getPassword());
+        if (user.getRole() == Role.STUDENT) throw invalidCredentials();
+        return token(user);
+    }
+
+    @Transactional(readOnly = true)
+    public AuthResponse universityLogin(UniversityLoginRequest request) {
+        User user = authenticate(request.getEmail(), request.getPassword());
+        if (user.getRole() != Role.STUDENT) throw invalidCredentials();
+        return token(user);
+    }
+
+    private User authenticate(String email, String password) {
+        User user = users.findByEmail(email.trim()).orElseThrow(this::invalidCredentials);
+        if (!Boolean.TRUE.equals(user.getEnabled()) || user.getPassword() == null
+                || !encoder.matches(password, user.getPassword())) throw invalidCredentials();
+        return user;
+    }
+
+    private BadRequestException invalidCredentials() {
+        return new BadRequestException("Invalid email or password, or account disabled");
+    }
+
+    public UserDto me(Long id) {
+        return mapper.toDto(users.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found")));
+    }
+
+    private AuthResponse token(User user) {
+        return AuthResponse.builder().token(jwt.generateToken(user.getId(), user.getEmail(), user.getRole().name()))
+                .email(user.getEmail()).role(user.getRole().name()).build();
+    }
 }

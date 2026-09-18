@@ -16,3 +16,7 @@
 .access-footer p { font-size: 13px; }
 @media (max-width: 1050px) { .access-roles { grid-template-columns: 1fr; } .access-role-number { margin-bottom: 0; } }
 @media (max-width: 800px) { .access-footer { align-items: flex-start; flex-direction: column; } }
+
+.sign-in-form { max-width: 420px; margin-top: 24px; }
+.sign-in-form input { display: block; width: 100%; border: 1px solid #cbdad1; border-radius: 8px; padding: 12px; margin-bottom: 20px; background: #fbfdfb; }
+.sign-in-form button:disabled { opacity: .6; cursor: wait; }

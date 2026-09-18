@@ -1,66 +1,43 @@
 package bg.tuvarna.sit.project.ps.internshipmanagement.security;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
+import bg.tuvarna.sit.project.ps.internshipmanagement.repository.UserRepository;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
 import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
     private final JwtService jwt;
-
-    public JwtAuthenticationFilter(JwtService jwt) {
-        this.jwt = jwt;
+    private final UserRepository users;
+    public JwtAuthenticationFilter(JwtService jwt, UserRepository users) {
+        this.jwt = jwt; this.users = users;
     }
-
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain chain
-    ) throws ServletException, IOException {
-
-        String authorizationHeader = request.getHeader("Authorization");
-
-        if (authorizationHeader != null
-                && authorizationHeader.startsWith("Bearer ")) {
-
-            String token = authorizationHeader.substring(7);
-
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws ServletException, IOException {
+        String header = request.getHeader("Authorization");
+        if (header != null && header.startsWith("Bearer ")) {
+            String token = header.substring(7);
             if (jwt.isValid(token)) {
-
-                String email = jwt.getEmail(token);
-                String role = jwt.getRole(token);
-
-                var authorities = List.of(
-                        new SimpleGrantedAuthority("ROLE_" + role)
-                );
-
-                var authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                email,
-                                null,
-                                authorities
-                        );
-
-                authentication.setDetails(jwt.getUserId(token));
-
-                SecurityContextHolder
-                        .getContext()
-                        .setAuthentication(authentication);
+                Long id = null;
+                try { id = jwt.getUserId(token); } catch (IllegalArgumentException ignored) { }
+                if (id != null) {
+                    // Re-read account status and role on every request, including already issued tokens.
+                    users.findById(id).filter(user -> Boolean.TRUE.equals(user.getEnabled())).ifPresent(user -> {
+                        var authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), null,
+                                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
+                        authentication.setDetails(user.getId());
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                    });
+                }
             }
         }
-
         chain.doFilter(request, response);
     }
 }

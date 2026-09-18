@@ -11,12 +11,15 @@ import StudentOffersPage from "./pages/StudentOffersPage";
 import StudentOfferDetailsPage from "./pages/StudentOfferDetailsPage";
 import StudentApplicationsPage from "./pages/StudentApplicationsPage";
 
+import AccountPage from "./pages/AccountPage";
+
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
 
       <Routes>
+        <Route path="/account" element={<AccountPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/university-login" element={<UniversityLoginPage />} />

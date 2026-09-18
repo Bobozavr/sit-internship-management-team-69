@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-function UniversityLoginPage() {
-  return <main><header className="page-header"><span className="eyebrow">STUDENT ACCESS</span><h1>Your future starts here.</h1><p>Your university account will be your way into the internship community.</p></header><section className="empty-panel"><h2>University login is coming next</h2><p>University sign-in simulation is not connected yet. For now, explore the platform as one demo student.</p><Link className="button" to="/student/offers">Explore the student demo ↗</Link></section></main>;
+import SignInForm from "../components/SignInForm";
+export default function UniversityLoginPage() {
+  return <main><Link className="back-link" to="/">← Choose another account type</Link><header className="page-header"><span className="eyebrow">STUDENT ACCESS</span><h1>Student sign in</h1><p>Use the university email and password issued to you. Contact your administrator if you need access.</p></header><section className="empty-panel"><h2>Your university account</h2><SignInForm role="STUDENT" /></section></main>;
 }
-export default UniversityLoginPage;

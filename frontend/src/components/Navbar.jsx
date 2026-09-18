@@ -13,10 +13,11 @@ function Navbar() {
       <p className="nav-label">ACCESS & PARTNERS</p>
       <nav aria-label="Account navigation">
         <NavLink to="/university-login">University login</NavLink>
-        <NavLink to="/login?role=company">Company & admin access</NavLink>
+        <NavLink to="/login?role=company">Company login</NavLink>
+        <NavLink to="/account">My account</NavLink>
         <NavLink to="/company-registration">Register your company</NavLink>
       </nav>
-      <div className="sidebar-note"><span className="live-dot" /> Student demo<p>Explore opportunities.<br />Build your next chapter.</p></div>
+      <div className="sidebar-note"><span className="live-dot" /> Development preview<p>Explore opportunities.<br />Build your next chapter.</p></div>
     </aside>
   );
 }
