@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage";
 import UniversityLoginPage from "./pages/UniversityLoginPage";
 import CompanyRegistrationPage from "./pages/CompanyRegistrationPage";
 import StudentOffersPage from "./pages/StudentOffersPage";
+import StudentOfferDetailsPage from "./pages/StudentOfferDetailsPage";
 import StudentApplicationsPage from "./pages/StudentApplicationsPage";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/company-registration" element={<CompanyRegistrationPage />} />
 
         <Route path="/student/offers" element={<StudentOffersPage />} />
+        <Route path="/student/offers/:id" element={<StudentOfferDetailsPage />} />
         <Route path="/student/applications" element={<StudentApplicationsPage />} />
       </Routes>
     </BrowserRouter>

@@ -1,5 +1,16 @@
 export const fakeOffers = [
   {
+    id: 4,
+    title: "QA Testing Internship",
+    description: "Test web applications and learn how to report bugs clearly.",
+    requiredSkills: "Attention to detail, HTML, testing basics",
+    location: "Varna",
+    type: "HYBRID",
+    deadline: "2026-10-15",
+    status: "ACTIVE",
+    companyName: "QualityLab"
+  },
+  {
     id: 1,
     title: "Java Backend Internship",
     description: "Work with Spring Boot, REST API and PostgreSQL.",

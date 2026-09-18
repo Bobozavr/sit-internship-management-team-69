@@ -1,6 +1,7 @@
 export const fakeApplications = [
   {
     id: 1,
+    internshipOfferId: 1,
     internshipTitle: "Java Backend Internship",
     companyName: "TechSoft",
     applicationDate: "2026-08-20",
@@ -9,6 +10,7 @@ export const fakeApplications = [
   },
   {
     id: 2,
+    internshipOfferId: 2,
     internshipTitle: "React Frontend Internship",
     companyName: "WebLab",
     applicationDate: "2026-08-22",
@@ -17,6 +19,7 @@ export const fakeApplications = [
   },
   {
     id: 3,
+    internshipOfferId: 3,
     internshipTitle: "Database Internship",
     companyName: "DataHouse",
     applicationDate: "2026-08-25",
