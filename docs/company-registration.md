@@ -19,4 +19,4 @@ The status link is a bearer secret: anyone possessing it can view the company na
 
 Six CompanyRegistrationServiceTest cases plus eight AuthSecurityTest cases passed. Tests cover token hashing, pending/rejected duplicate rules, retry after 25 hours, missing/unknown token, rejection reason, approval account creation and repeat-review rejection. Browser/API checks covered submission, status reload, admin full details, approval then company login, rejection feedback, immediate retry denial, no login before approval/after rejection, private status access and omitted contact fields. Temporary test records were removed. Frontend build and lint passed.
 
-Publishing/editing internships and processing student applications from the company UI are the next separate step; the company workspace currently displays its own offers and applications.
+The company workspace now supports publishing/editing/closing/reopening internships and reviewing student applications. See company-workspace.md for the workflow and checks.

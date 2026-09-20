@@ -58,6 +58,9 @@ public class InternshipOfferController {
         return s.update(id, r);
     }
 
+    @PatchMapping("/company/offers/{id}/reopen")
+    public InternshipOfferDto reopen(@PathVariable Long id) { return s.reopen(id); }
+
     @PatchMapping("/company/offers/{id}/close")
     public InternshipOfferDto close(@PathVariable Long id) {
         return s.close(id);
