@@ -1,6 +1,6 @@
 # Student accounts and temporary passwords
 
-Administrators can create student accounts from **My account → Student accounts**. Enter first name, last name, faculty number (4–12 digits), specialty and course (1–6).
+Administrators can create student accounts from **My account → Student accounts**. Enter first name, last name, faculty number (4–12 digits), specialty and course (1–4).
 
 The login is `s<facultyNumber>@students.example`. This is a demo university identifier, not an actual mailbox. A cryptographically random temporary password is displayed once in the current page. Hand the credentials to the student personally or through the university channel. The database stores only the password hash. Clearing or leaving the page loses the displayed password; an administrator can issue a new one with **Reset password**.
 
@@ -23,4 +23,4 @@ Existing accounts remain unchanged; old student accounts without passwords need 
 
 Seven AuthSecurityTest tests cover credential checks, enabled state, actual server role, restricted temporary sessions, password change, token version invalidation and wrong current password. Browser/API checks cover admin creation, duplicate faculty number, student login, forced change, mismatch confirmation, old-password rejection, old-token rejection, reload, repeat login, reset and blocking. Test accounts were removed after the checks. Frontend build and lint passed.
 
-Student offers and applications in the frontend still use demo data; their migration to backend APIs is a separate next step.
+Student offers and applications now use backend APIs. My applications contains only the signed-in student's records. The sidebar shows identity and role; company accounts have a separate read-only workspace for their own offers and incoming applications. Company registration, publishing and application review controls still need frontend implementation.

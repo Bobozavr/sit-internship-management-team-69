@@ -25,3 +25,5 @@
 .issued-credentials input { width:100%; padding:10px; margin-bottom:16px; border:1px solid #cbdad1; border-radius:6px; font:inherit; }
 .student-row { display:flex; justify-content:space-between; gap:24px; align-items:center; background:white; padding:20px; border:1px solid #dce5e0; border-radius:12px; margin-top:12px; }
 .student-row small { color:#527066; }
+
+.sidebar-note { overflow-wrap:anywhere; }.sidebar-logout { margin-top:16px; padding:8px 14px; border:1px solid #7ca99f; border-radius:6px; background:transparent; color:white; }.account-actions { display:flex; align-items:center; gap:24px; margin:24px 0; }.company-applications { margin-top:32px; }.sign-in-form select { width:100%; padding:12px; border:1px solid #cbdad1; border-radius:8px; }

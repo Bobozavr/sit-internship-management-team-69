@@ -1,6 +1,6 @@
 const key = "internship.auth.token";
-export function updateSession(token) { sessionStorage.setItem(key, token); }
-export function signOut() { sessionStorage.removeItem(key); }
+export function updateSession(token) { sessionStorage.setItem(key, token); window.dispatchEvent(new Event("authchange")); }
+export function signOut() { sessionStorage.removeItem(key); window.dispatchEvent(new Event("authchange")); }
 export async function apiRequest(path, options = {}) {
   const token = sessionStorage.getItem(key);
   const response = await fetch(`/api${path}`, {
@@ -18,6 +18,6 @@ export async function signIn(email, password, role) {
     method: "POST", body: JSON.stringify({ email: email.trim(), password })
   });
   if (data.role !== role) throw new Error("This account belongs to another role. Please choose the matching sign-in page.");
-  sessionStorage.setItem(key, data.token);
+  updateSession(data.token);
   return data;
 }

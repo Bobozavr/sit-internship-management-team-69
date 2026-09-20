@@ -94,4 +94,11 @@ class AuthSecurityTest {
         assertEquals(0, student.getTokenVersion());
         verify(users, never()).save(any());
     }
+    @Test void studentCourseIsLimitedToFour() {
+        try (var factory = jakarta.validation.Validation.buildDefaultValidatorFactory()) {
+            var validator = factory.getValidator();
+            assertTrue(validator.validate(new bg.tuvarna.sit.project.ps.internshipmanagement.dto.admin.CreateStudentRequest("Test", "Student", "12345", "Software", 4)).isEmpty());
+            assertFalse(validator.validate(new bg.tuvarna.sit.project.ps.internshipmanagement.dto.admin.CreateStudentRequest("Test", "Student", "12345", "Software", 5)).isEmpty());
+        }
+    }
 }
