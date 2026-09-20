@@ -1,12 +1,15 @@
 import { useState } from "react";
 import OfferCard from "../components/OfferCard";
-import { fakeOffers } from "../data/fakeOffers";
+import useApiData from "../api/useApiData";
 
 function StudentOffersPage() {
   const [query, setQuery] = useState("");
   const [type, setType] = useState("");
   const [city, setCity] = useState("");
-  const activeOffers = fakeOffers.filter(offer => offer.status === "ACTIVE");
+  const {data,loading,error}=useApiData("/offers");
+  if(loading) return <main><p role="status">Loading internships…</p></main>;
+  if(error) return <main><p role="alert">{error}</p></main>;
+  const activeOffers = data || [];
   const offers = activeOffers.filter(offer =>
     (!type || offer.type === type) && (!city || offer.location === city) &&
     `${offer.title} ${offer.description} ${offer.requiredSkills} ${offer.companyName}`.toLowerCase().includes(query.trim().toLowerCase())
@@ -21,8 +24,8 @@ function StudentOffersPage() {
       </div>
       <p className="results-count" role="status">{offers.length} {offers.length === 1 ? "opportunity" : "opportunities"} to explore</p>
       <div className="offer-grid">{offers.map(offer => <OfferCard key={offer.id} offer={offer} />)}</div>
-      {offers.length === 0 && <div className="empty-results"><h2>No matches just yet.</h2><p>Try another keyword or broaden your filters.</p><button className="reset-button" onClick={() => { setQuery(""); setCity(""); setType(""); }}>Clear filters</button></div>}
-      <p className="notice">Demo opportunities · Applications are saved in this browser.</p>
+      {offers.length === 0 && <div className="empty-results"><h2>No matches just yet.</h2><p>{activeOffers.length ? "Try another keyword or broaden your filters." : "No active internships have been published yet. Please check back later."}</p><button className="reset-button" onClick={() => { setQuery(""); setCity(""); setType(""); }}>Clear filters</button></div>}
+      <p className="notice">Published internships from companies. Sign in as a student to apply.</p>
     </main>
   );
 }

@@ -1,5 +1,16 @@
-import { Link } from "react-router-dom";
-function LoginPage() {
-  return <main><header className="page-header"><span className="eyebrow">ACCOUNT ACCESS</span><h1>Welcome back.</h1><p>A dedicated space for approved companies and administrators.</p></header><section className="empty-panel"><h2>Account login is coming next</h2><p>This demo does not support account login yet. You can explore internships and try the student application flow.</p><Link className="button" to="/student/offers">Explore internships ↗</Link><p>Representing a new company? <Link className="text-link" to="/company-registration">Company registration →</Link></p></section></main>;
+import { Link, useSearchParams } from "react-router-dom";
+
+import SignInForm from "../components/SignInForm";
+
+export default function LoginPage() {
+  const [params] = useSearchParams();
+  const isAdmin = params.get("role") === "admin";
+  const name = isAdmin ? "Administrator" : "Company";
+  return (
+    <main>
+      <Link className="back-link" to="/">в†ђ Choose another account type</Link>
+      <header className="page-header"><span className="eyebrow">{name.toUpperCase()} ACCESS</span><h1>{name} sign in</h1><p>{isAdmin ? "Manage users, review company registrations and oversee internships." : "Manage your companyвЂ™s opportunities and student applications."}</p></header>
+      <section className="empty-panel"><h2>{isAdmin ? "Your administrator account" : "Your approved company account"}</h2><p>{isAdmin ? "Your account is created by the system. Public administrator registration is not available." : "Use the email and password from your company registration after approval."}</p><SignInForm key={name} role={isAdmin ? "ADMIN" : "COMPANY"} />{!isAdmin && <Link className="text-link" to="/company-registration">Request a company account в†’</Link>}</section>
+    </main>
+  );
 }
-export default LoginPage;

@@ -33,6 +33,8 @@ public class CompanyRegistrationMapper {
 
         return CompanyRegistrationResponse.builder()
                 .id(request.getId())
+                .description(request.getDescription()).website(request.getWebsite()).city(request.getCity())
+                .representativeFirstName(request.getRepresentativeFirstName()).representativeLastName(request.getRepresentativeLastName())
                 .companyName(request.getCompanyName())
                 .contactEmail(request.getContactEmail())
                 .representativeEmail(request.getRepresentativeEmail())

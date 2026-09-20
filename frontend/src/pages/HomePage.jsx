@@ -1,21 +1,19 @@
 import { Link } from "react-router-dom";
-import { fakeOffers } from "../data/fakeOffers";
 
-function HomePage() {
+const roles = [
+  { name: "Student", label: "LEARN & GROW", icon: "01", to: "/university-login", description: "Use your university email and password to find internships and follow your applications.", action: "Student sign in" },
+  { name: "Company", label: "MEET YOUR NEXT TEAM", icon: "02", to: "/login?role=company", description: "Sign in with your approved company account to publish opportunities and meet students.", action: "Company sign in" },
+  { name: "Administrator", label: "MANAGE THE COMMUNITY", icon: "03", to: "/login?role=admin", description: "Use your administrator account to review companies, manage users and oversee the platform.", action: "Administrator sign in" },
+];
+
+export default function HomePage() {
   return (
-    <main>
-      <header className="page-header"><span className="eyebrow">YOUR NEXT CHAPTER</span><h1>Great careers start<br />with a first step.</h1><p>Find a place to learn, contribute and turn your studies into experience.</p></header>
-      <section className="hero-panel">
-        <div><span className="eyebrow">LEARN BY DOING</span><h2>Your potential.<br />A world of possibilities.</h2><p>Explore internships, meet your next team and keep every application in one place.</p><Link className="button" to="/student/offers">Explore internships <span aria-hidden="true">↗</span></Link></div>
-        <div className="hero-art" aria-hidden="true"><div className="orbit orbit-one" /><div className="orbit orbit-two" /><span className="art-label">THE NEXT STEP IS YOURS</span><span className="art-arrow">↗</span><span className="art-foot">LEARN. CONNECT. GROW.</span></div>
+    <main className="access-home">
+      <header className="page-header"><span className="eyebrow">UNIVERSITY CAREER SPACE</span><h1>Your next chapter<br />starts here.</h1><p>One community. Different possibilities.<br />Choose how you would like to sign in.</p></header>
+      <section className="access-roles" aria-label="Choose your account type">
+        {roles.map(role => <Link className="access-role" key={role.name} to={role.to}><span className="access-role-number" aria-hidden="true">{role.icon}</span><span className="eyebrow">{role.label}</span><h2>{role.name}</h2><p>{role.description}</p><span className="text-link">{role.action} <span aria-hidden="true">→</span></span></Link>)}
       </section>
-      <div className="section-heading"><h2>A little direction. A big difference.</h2><span>{fakeOffers.filter(offer => offer.status === "ACTIVE").length} demo opportunities</span></div>
-      <div className="journey-grid">
-        <Link className="journey-card" to="/student/offers"><span className="step-number">01 / DISCOVER</span><h3>Find your fit</h3><p>Browse opportunities that match your interests and the skills you want to build.</p><span className="text-link">Explore opportunities →</span></Link>
-        <Link className="journey-card" to="/student/applications"><span className="step-number">02 / FOLLOW UP</span><h3>Keep track</h3><p>See your applications and follow each step, from submission to a decision.</p><span className="text-link">My applications →</span></Link>
-        <Link className="journey-card" to="/company-registration"><span className="step-number">03 / FOR COMPANIES</span><h3>Meet fresh talent</h3><p>Request access to the platform and help students take their first professional steps.</p><span className="text-link">Become a partner →</span></Link>
-      </div>
+      <section className="access-footer"><div><h2>New company?</h2><p>Request an account. Our administrator will review your registration.</p><Link className="text-link" to="/company-registration">Register your company →</Link></div><Link className="button" to="/student/offers">Explore internships ↗</Link></section>
     </main>
   );
 }
-export default HomePage;

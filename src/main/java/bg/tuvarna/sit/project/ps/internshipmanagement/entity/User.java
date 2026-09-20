@@ -49,6 +49,14 @@ public class User {
     @Column(nullable = false)       //for admin understanding
     private Boolean enabled;
 
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean passwordChangeRequired = false;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private int tokenVersion = 0;
+
     @PrePersist
     public void setDefaultValuesBeforeInsert() {
         this.createdAt = LocalDateTime.now();
