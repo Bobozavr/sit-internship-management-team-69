@@ -16,7 +16,7 @@ export default function AccountPage() {
         {user.role === "STUDENT" && <div className="account-actions"><Link className="button" to="/student/offers">Find internships →</Link><Link className="text-link" to="/student/applications">My applications →</Link></div>}
         {user.role === "COMPANY" && <div className="account-actions"><Link className="button" to="/company/workspace">Our offers & applications →</Link></div>}
       </section>
-      {user.role === "ADMIN" && <StudentManagement />}
+      {user.role === "ADMIN" && <><div className="account-actions"><Link className="button" to="/admin/company-requests">Review company registrations →</Link></div><StudentManagement /></>}
     </>}
   </main>;
 }

@@ -17,5 +17,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class) ResponseEntity<ErrorResponse> validation(MethodArgumentNotValidException e,HttpServletRequest r){
         String msg=e.getBindingResult().getFieldErrors().stream().map(x->x.getField()+": "+x.getDefaultMessage()).collect(Collectors.joining("; ")); return error(HttpStatus.BAD_REQUEST,msg,r);
     }
+    @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class) ResponseEntity<ErrorResponse> conflict(Exception e,HttpServletRequest r){return error(HttpStatus.CONFLICT,"These details conflict with an existing record. Refresh and check the registration status.",r);}
     @ExceptionHandler(Exception.class) ResponseEntity<ErrorResponse> generic(Exception e,HttpServletRequest r){return error(HttpStatus.INTERNAL_SERVER_ERROR,e.getMessage()==null?"Unexpected error":e.getMessage(),r);}
 }

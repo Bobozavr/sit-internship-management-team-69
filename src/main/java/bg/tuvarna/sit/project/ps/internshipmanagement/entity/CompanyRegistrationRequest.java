@@ -64,6 +64,9 @@ public class CompanyRegistrationRequest {
     @JoinColumn(name = "created_company_id")
     private Company createdCompany;
 
+    @Column(unique = true, length = 64)
+    private String statusTokenHash;
+
     @PrePersist
     public void setDefaultValuesBeforeInsert() {
         this.requestedAt = LocalDateTime.now();

@@ -2,6 +2,8 @@ import "./access.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
   //3 tools from lib (for open pages, conteiner, rule how to open pages)
 import { AuthSession, SessionGate, RequireRole } from "./components/AuthSession";
+import AdminCompanyRequestsPage from "./pages/AdminCompanyRequestsPage";
+import CompanyRegistrationStatusPage from "./pages/CompanyRegistrationStatusPage";
 import CompanyWorkspace from "./pages/CompanyWorkspace";
 import Navbar from "./components/Navbar";
 
@@ -27,6 +29,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/university-login" element={<UniversityLoginPage />} />
+        <Route path="/admin/company-requests" element={<RequireRole role="ADMIN"><AdminCompanyRequestsPage /></RequireRole>} />
+        <Route path="/company-registration/status" element={<CompanyRegistrationStatusPage />} />
         <Route path="/company-registration" element={<CompanyRegistrationPage />} />
 
         <Route path="/student/offers" element={<StudentOffersPage />} />

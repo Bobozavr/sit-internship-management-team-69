@@ -15,6 +15,11 @@ public class CompanyRegistrationResponse {      //backend which will return resp
     private Long id;
 
     private String companyName;
+    private String description;
+    private String website;
+    private String city;
+    private String representativeFirstName;
+    private String representativeLastName;
 
     private String contactEmail;
 

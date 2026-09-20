@@ -17,7 +17,9 @@ public class SecurityConfig {
     @Bean PasswordEncoder passwordEncoder(){return new BCryptPasswordEncoder();}
     @Bean SecurityFilterChain filterChain(HttpSecurity http,JwtAuthenticationFilter filter)throws Exception{
         http.exceptionHandling(e -> e.authenticationEntryPoint((request, response, exception) -> response.setStatus(401)).accessDeniedHandler((request, response, exception) -> response.setStatus(403))).csrf(c->c.disable()).cors(c->c.configurationSource(corsConfigurationSource())).sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(a->a
-          .requestMatchers("/api/auth/login","/api/auth/university-login","/api/company-registration-requests/**","/swagger-ui/**","/v3/api-docs/**").permitAll()
+          .requestMatchers("/api/auth/login","/api/auth/university-login","/swagger-ui/**","/v3/api-docs/**").permitAll()
+          .requestMatchers(HttpMethod.POST,"/api/company-registration-requests").permitAll()
+          .requestMatchers(HttpMethod.GET,"/api/company-registration-requests/status").permitAll()
           .requestMatchers(HttpMethod.GET,"/api/offers/**").permitAll()
           .requestMatchers("/api/auth/me", "/api/auth/password").authenticated()
           .requestMatchers("/api/admin/**").hasRole("ADMIN")
