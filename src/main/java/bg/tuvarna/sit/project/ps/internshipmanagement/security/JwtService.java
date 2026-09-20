@@ -26,6 +26,10 @@ public class JwtService {
     }
 
     public String generateToken(Long userId, String email, String role) {
+        return generateToken(userId, email, role, 0);
+    }
+
+    public String generateToken(Long userId, String email, String role, int version) {
 
         String header = base64(
                 "{\"alg\":\"HS256\",\"typ\":\"JWT\"}"
@@ -38,7 +42,7 @@ public class JwtService {
                 "{\"sub\":\"" + userId +
                         "\",\"email\":\"" + escape(email) +
                         "\",\"role\":\"" + role +
-                        "\",\"iat\":" + now +
+                        "\",\"version\":\"" + version + "\",\"iat\":" + now +
                         ",\"exp\":" + expiration +
                         "}"
         );
@@ -91,6 +95,11 @@ public class JwtService {
 
     public String getRole(String token) {
         return claim(token, "role");
+    }
+
+    public int getVersion(String token) {
+        try { return Integer.parseInt(claim(token, "version")); }
+        catch (IllegalArgumentException ex) { return -1; }
     }
 
     public Long getUserId(String token) {

@@ -29,9 +29,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 try { id = jwt.getUserId(token); } catch (IllegalArgumentException ignored) { }
                 if (id != null) {
                     // Re-read account status and role on every request, including already issued tokens.
-                    users.findById(id).filter(user -> Boolean.TRUE.equals(user.getEnabled())).ifPresent(user -> {
+                    users.findById(id).filter(user -> Boolean.TRUE.equals(user.getEnabled()) && jwt.getVersion(token) == user.getTokenVersion()).ifPresent(user -> {
                         var authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), null,
-                                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
+                                List.of(new SimpleGrantedAuthority(user.isPasswordChangeRequired() ? "PASSWORD_CHANGE_REQUIRED" : "ROLE_" + user.getRole().name())));
                         authentication.setDetails(user.getId());
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     });

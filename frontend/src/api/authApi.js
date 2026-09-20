@@ -1,4 +1,5 @@
 const key = "internship.auth.token";
+export function updateSession(token) { sessionStorage.setItem(key, token); }
 export function signOut() { sessionStorage.removeItem(key); }
 export async function apiRequest(path, options = {}) {
   const token = sessionStorage.getItem(key);

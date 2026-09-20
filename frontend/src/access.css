@@ -20,3 +20,8 @@
 .sign-in-form { max-width: 420px; margin-top: 24px; }
 .sign-in-form input { display: block; width: 100%; border: 1px solid #cbdad1; border-radius: 8px; padding: 12px; margin-bottom: 20px; background: #fbfdfb; }
 .sign-in-form button:disabled { opacity: .6; cursor: wait; }
+
+.issued-credentials { margin-top: 22px; }
+.issued-credentials input { width:100%; padding:10px; margin-bottom:16px; border:1px solid #cbdad1; border-radius:6px; font:inherit; }
+.student-row { display:flex; justify-content:space-between; gap:24px; align-items:center; background:white; padding:20px; border:1px solid #dce5e0; border-radius:12px; margin-top:12px; }
+.student-row small { color:#527066; }

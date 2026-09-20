@@ -33,6 +33,12 @@ public class AuthController {
         return service.universityLogin(r);
     }
 
+    @PostMapping("/password")
+    public AuthResponse changePassword(@Valid @RequestBody ChangePasswordRequest request) {
+        Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        return service.changePassword(id, request);
+    }
+
     @GetMapping("/me")
     public UserDto me() {
 

@@ -62,4 +62,36 @@ class AuthSecurityTest {
         filter.doFilter(request, new MockHttpServletResponse(), new MockFilterChain());
         assertNull(SecurityContextHolder.getContext().getAuthentication());
     }
+
+    @Test void temporaryPasswordTokenHasNoStudentPrivileges() throws Exception {
+        student.setPasswordChangeRequired(true);
+        when(users.findById(42L)).thenReturn(Optional.of(student));
+        var request = new MockHttpServletRequest();
+        request.addHeader("Authorization", "Bearer " + jwt.generateToken(42L, student.getEmail(), "STUDENT", 0));
+        new JwtAuthenticationFilter(jwt, users).doFilter(request, new MockHttpServletResponse(), new MockFilterChain());
+        assertEquals("PASSWORD_CHANGE_REQUIRED", SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next().getAuthority());
+    }
+    @Test void passwordChangeInvalidatesOldTokenAndEnablesAccount() throws Exception {
+        student.setPasswordChangeRequired(true);
+        when(users.findById(42L)).thenReturn(Optional.of(student));
+        when(encoder.matches("temporary", "hash")).thenReturn(true);
+        when(encoder.encode("new-password-123")).thenReturn("new-hash");
+        String oldToken=jwt.generateToken(42L, student.getEmail(), "STUDENT", 0);
+        var response=auth.changePassword(42L, new bg.tuvarna.sit.project.ps.internshipmanagement.dto.auth.ChangePasswordRequest("temporary", "new-password-123"));
+        assertFalse(student.isPasswordChangeRequired());
+        assertEquals("new-hash", student.getPassword());
+        assertEquals(1, jwt.getVersion(response.getToken()));
+        var request=new MockHttpServletRequest();
+        request.addHeader("Authorization", "Bearer " + oldToken);
+        new JwtAuthenticationFilter(jwt, users).doFilter(request, new MockHttpServletResponse(), new MockFilterChain());
+        assertNull(SecurityContextHolder.getContext().getAuthentication());
+    }
+    @Test void wrongCurrentPasswordCannotChangeCredentials() {
+        when(users.findById(42L)).thenReturn(Optional.of(student));
+        assertThrows(BadRequestException.class, () -> auth.changePassword(42L,
+            new bg.tuvarna.sit.project.ps.internshipmanagement.dto.auth.ChangePasswordRequest("wrong", "new-password-123")));
+        assertEquals("hash", student.getPassword());
+        assertEquals(0, student.getTokenVersion());
+        verify(users, never()).save(any());
+    }
 }

@@ -10,6 +10,7 @@ public class UserMapper {
     public UserDto toDto(User user) {
         return UserDto.builder()
                 .id(user.getId())
+                .passwordChangeRequired(user.isPasswordChangeRequired())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
